@@ -19,6 +19,7 @@ import CenteredSection from './CenteredSection';
 import Section from './Section';
 import messages from './messages';
 import { loadEpisodes } from '../App/actions';
+import P from './P';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -171,9 +172,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             <H2>
               <FormattedMessage {...messages.projectHeader} />
             </H2>
-            <p>
+            <P>
               <FormattedMessage {...messages.projectMessage} />
-            </p>
+            </P>
           </CenteredSection>
           <Section>
             { episodes &&
