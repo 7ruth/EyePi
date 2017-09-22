@@ -13,34 +13,42 @@
 import { fromJS } from 'immutable';
 
 import {
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
-  LOAD_REPOS_ERROR,
+  LOAD_EPISODES_SUCCESS,
+  LOAD_EPISODES,
+  LOAD_EPISODES_ERROR,
 } from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
   loading: false,
   error: false,
-  currentUser: false,
-  userData: {
-    repositories: false,
+  starTrekData: {
+    episodes: false,
+    maxNumVotes: false,
   },
 });
 
 function appReducer(state = initialState, action) {
+  let maxNumVotes = 0;
   switch (action.type) {
-    case LOAD_REPOS:
+    case LOAD_EPISODES:
       return state
         .set('loading', true)
         .set('error', false)
-        .setIn(['userData', 'repositories'], false);
-    case LOAD_REPOS_SUCCESS:
+        .setIn(['starTrekData', 'episodes'], false);
+    case LOAD_EPISODES_SUCCESS:
+      // find the max count of votes for an episode, used later for display purposes
+      action.episodes.forEach((episode) => {
+        if (episode.numVotes > maxNumVotes) {
+          maxNumVotes = episode.numVotes;
+        }
+      });
+
       return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
-    case LOAD_REPOS_ERROR:
+        .setIn(['starTrekData', 'episodes'], action.episodes)
+        .setIn(['starTrekData', 'maxNumVotes'], maxNumVotes)
+        .set('loading', false);
+    case LOAD_EPISODES_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);

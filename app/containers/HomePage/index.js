@@ -9,75 +9,184 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 
-import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectEpisodes, makeSelectLoading, makeSelectError, makeSelectMaxNumVotes } from 'containers/App/selectors';
 import H2 from 'components/H2';
-import ReposList from 'components/ReposList';
-import AtPrefix from './AtPrefix';
+import IndicatorList from 'components/IndicatorList';
 import CenteredSection from './CenteredSection';
-import Form from './Form';
-import Input from './Input';
 import Section from './Section';
 import messages from './messages';
-import { loadRepos } from '../App/actions';
-import { changeUsername } from './actions';
-import { makeSelectUsername } from './selectors';
+import { loadEpisodes } from '../App/actions';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  /**
-   * when initial state username is not null, submit the form to load repos
-   */
+
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
+    // Load episodes when this component mounts
+    this.props.onPageLoadGetEpisodes();
   }
 
   render() {
-    const { loading, error, repos } = this.props;
-    const reposListProps = {
+    const { loading, error, episodes, maxNumVotes } = this.props;
+    const IndicatorListProps = {
       loading,
       error,
-      repos,
+      episodes,
     };
+    const episodeTableProps = episodes;
+
+    const columns = [{
+      Header: 'Title',
+      accessor: 'originalTitle',
+      width: 200,
+    }, {
+      Header: 'Season',
+      accessor: 'seasonNumber',
+      width: 100,
+      Cell: ({ value }) => (
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          {value}
+        </div>
+      ),
+      filterMethod: (filter, row) => {
+        if (filter.value === 'all') {
+          return true;
+        }
+        if (Number.parseInt(filter.value, 10) === row[filter.id]) {
+          return row;
+        }
+        return false;
+      },
+      Filter: ({ filter, onChange }) =>
+        <select
+          onChange={(event) => onChange(event.target.value)}
+          style={{ width: '100%' }}
+          value={filter ? filter.value : 'all'}
+        >
+          <option value="all">All</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>,
+    }, {
+      Header: 'Episode #',
+      accessor: 'episodeNumber',
+      width: 100,
+      Cell: ({ value }) => (
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          {value}
+        </div>
+      ),
+    }, {
+      Header: 'Rating',
+      accessor: 'averageRating',
+      width: 200,
+      Cell: (row) => { // eslint-disable-line
+        return (
+          <div>
+            {[...Array(Math.round(row.original.averageRating / 2))].map((_, i) => { // eslint-disable-line
+              return <img key={i} alt="Picard" height={34} src="https://www.disruptorbeam.com/assets/uploaded/news-thumbnails/crew_icon_enterprise_d_picard.png" />;
+            })}
+          </div>
+        );
+      },
+    }, {
+      Header: 'Number of Votes',
+      accessor: 'numVotes',
+      width: 200,
+      Cell: (row) => (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#dadada',
+            borderRadius: '2px',
+          }}
+        >
+          <div
+            style={{
+              width: `${(row.value / maxNumVotes) * 100}%`,
+              height: '100%',
+              backgroundColor: row.value > (maxNumVotes * 0.66) ? '#85cc00' //eslint-disable-line
+                : row.value > (maxNumVotes * 0.33) ? '#ffbf00'
+                : '#ff2e00',
+              borderRadius: '2px',
+              transition: 'all .2s ease-out',
+            }}
+          />
+        </div>
+      ),
+    }, {
+      Header: 'Runtime (Sort Disabled)',
+      accessor: 'runtimeMinutes',
+      width: 100,
+      sortable: false,
+      Cell: ({ value }) => (
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          {value}
+        </div>
+      ),
+    }, {
+      Header: 'Year',
+      accessor: 'startYear',
+      width: 80,
+      Cell: ({ value }) => (
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          {value}
+        </div>
+      ),
+    }];
 
     return (
       <article>
         <Helmet
-          title="Home Page"
+          title="Star Trek: The Next Generation"
           meta={[
-            { name: 'description', content: 'A React.js Boilerplate application homepage' },
+            { name: 'description', content: 'Star Trek: The Next Generation Episode Guide' },
           ]}
         />
         <div>
           <CenteredSection>
             <H2>
-              <FormattedMessage {...messages.startProjectHeader} />
+              <FormattedMessage {...messages.projectHeader} />
             </H2>
             <p>
-              <FormattedMessage {...messages.startProjectMessage} />
+              <FormattedMessage {...messages.projectMessage} />
             </p>
           </CenteredSection>
           <Section>
-            <H2>
-              <FormattedMessage {...messages.trymeHeader} />
-            </H2>
-            <Form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
-                <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
-                </AtPrefix>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </Form>
-            <ReposList {...reposListProps} />
+            { episodes &&
+              <ReactTable
+                filterable
+                data={episodeTableProps}
+                columns={columns}
+                style={{ height: '550px' }}
+                defaultPageSize={30}
+                className="-striped -highlight"
+              />
+            }
+            <IndicatorList {...IndicatorListProps} />
           </Section>
         </div>
       </article>
@@ -91,30 +200,30 @@ HomePage.propTypes = {
     React.PropTypes.object,
     React.PropTypes.bool,
   ]),
-  repos: React.PropTypes.oneOfType([
+  episodes: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.bool,
   ]),
-  onSubmitForm: React.PropTypes.func,
-  username: React.PropTypes.string,
-  onChangeUsername: React.PropTypes.func,
+  maxNumVotes: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.bool,
+  ]),
+  onPageLoadGetEpisodes: React.PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-    onSubmitForm: (evt) => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
+    onPageLoadGetEpisodes: () => {
+      dispatch(loadEpisodes());
     },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  repos: makeSelectRepos(),
-  username: makeSelectUsername(),
+  episodes: makeSelectEpisodes(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
+  maxNumVotes: makeSelectMaxNumVotes(),
 });
 
 // Wrap the component to inject dispatch and state into it

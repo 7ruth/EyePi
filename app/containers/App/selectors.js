@@ -6,11 +6,6 @@ import { createSelector } from 'reselect';
 
 const selectGlobal = (state) => state.get('global');
 
-const makeSelectCurrentUser = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('currentUser')
-);
-
 const makeSelectLoading = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('loading')
@@ -21,9 +16,14 @@ const makeSelectError = () => createSelector(
   (globalState) => globalState.get('error')
 );
 
-const makeSelectRepos = () => createSelector(
+const makeSelectEpisodes = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['userData', 'repositories'])
+  (globalState) => globalState.getIn(['starTrekData', 'episodes'])
+);
+
+const makeSelectMaxNumVotes = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['starTrekData', 'maxNumVotes'])
 );
 
 const makeSelectLocationState = () => {
@@ -44,9 +44,9 @@ const makeSelectLocationState = () => {
 
 export {
   selectGlobal,
-  makeSelectCurrentUser,
   makeSelectLoading,
   makeSelectError,
-  makeSelectRepos,
+  makeSelectEpisodes,
+  makeSelectMaxNumVotes,
   makeSelectLocationState,
 };
