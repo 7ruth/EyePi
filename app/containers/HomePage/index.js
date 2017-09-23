@@ -66,7 +66,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         textAlign: 'center',
         userSelect: 'none',
       },
-      Footer: () => <a href="https://i.stack.imgur.com/jiFfM.jpg" style={{ color: 'purple', textDecoration: 'none' }}><span>&reg;</span></a>,
+      Footer: () => <a href="https://i.stack.imgur.com/jiFfM.jpg" style={{ color: 'purple', textDecoration: 'none' }}><span>&#10084;</span></a>,
     }, {
       Header: 'Title',
       accessor: 'originalTitle',
