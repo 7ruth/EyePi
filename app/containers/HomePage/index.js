@@ -241,6 +241,11 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                     firstWordOfEpisodeName = firstWordOfEpisodeName.substring(1, firstWordOfEpisodeName.length);
                   }
 
+                  // if episode name starts with an "the", cut it out
+                  if (firstWordOfEpisodeName.substring(0, 3) === 'The') {
+                    firstWordOfEpisodeName = firstWordOfEpisodeName.substring(3, firstWordOfEpisodeName.length);
+                  }
+
                   firstWordOfEpisodeName = firstWordOfEpisodeName.toLowerCase();
                   const subValueURL = 'http://www.jammersreviews.com/st-tng/s' + row.original.seasonNumber + '/' + firstWordOfEpisodeName + '.php'; // eslint-disable-line
                   const linkText = row.original.originalTitle + ' Review'; // eslint-disable-line
