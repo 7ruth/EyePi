@@ -44,9 +44,16 @@ const makeSelectLocationState = () => {
 
 export {
   selectGlobal,
+<<<<<<< HEAD
   makeSelectLoading,
   makeSelectError,
   makeSelectEpisodes,
   makeSelectMaxNumVotes,
+=======
+  makeSelectCurrentUser,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectRepos,
+>>>>>>> 27e7398287c19d505d4e9659f16859c6a8879fad
   makeSelectLocationState,
 };

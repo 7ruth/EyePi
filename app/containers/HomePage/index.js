@@ -281,6 +281,7 @@ HomePage.propTypes = {
     React.PropTypes.object,
     React.PropTypes.bool,
   ]),
+<<<<<<< HEAD
   episodes: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.bool,
@@ -290,21 +291,44 @@ HomePage.propTypes = {
     React.PropTypes.bool,
   ]),
   onPageLoadGetEpisodes: React.PropTypes.func,
+=======
+  repos: React.PropTypes.oneOfType([
+    React.PropTypes.array,
+    React.PropTypes.bool,
+  ]),
+  onSubmitForm: React.PropTypes.func,
+  username: React.PropTypes.string,
+  onChangeUsername: React.PropTypes.func,
+>>>>>>> 27e7398287c19d505d4e9659f16859c6a8879fad
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
+<<<<<<< HEAD
     onPageLoadGetEpisodes: () => {
       dispatch(loadEpisodes());
+=======
+    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
+    onSubmitForm: (evt) => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loadRepos());
+>>>>>>> 27e7398287c19d505d4e9659f16859c6a8879fad
     },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
+<<<<<<< HEAD
   episodes: makeSelectEpisodes(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
   maxNumVotes: makeSelectMaxNumVotes(),
+=======
+  repos: makeSelectRepos(),
+  username: makeSelectUsername(),
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
+>>>>>>> 27e7398287c19d505d4e9659f16859c6a8879fad
 });
 
 // Wrap the component to inject dispatch and state into it

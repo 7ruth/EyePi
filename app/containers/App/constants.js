@@ -9,8 +9,14 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+<<<<<<< HEAD
 export const LOAD_EPISODES = 'boilerplate/App/LOAD_EPISODES';
 export const LOAD_EPISODES_SUCCESS = 'boilerplate/App/LOAD_EPISODES_SUCCESS';
 export const LOAD_EPISODES_ERROR = 'boilerplate/App/LOAD_EPISODES_ERROR';
 
+=======
+export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
+export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
+export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
+>>>>>>> 27e7398287c19d505d4e9659f16859c6a8879fad
 export const DEFAULT_LOCALE = 'en';
