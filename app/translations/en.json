@@ -1,4 +1,6 @@
 {
+
   "boilerplate.containers.HomePage.start_project.header": "Eye Pi, a smart, distributed time lapse camera",
   "boilerplate.containers.HomePage.start_project.message": "The eye counts the number of people and cars it sees over the course of the day"
+
 }
