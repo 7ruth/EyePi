@@ -15,6 +15,7 @@ import 'react-table/react-table.css';
 
 import { makeSelectEpisodes, makeSelectLoading, makeSelectError, makeSelectMaxNumVotes } from 'containers/App/selectors';
 import H2 from 'components/H2';
+import Img from './Img';
 import IndicatorList from 'components/IndicatorList';
 import CenteredSection from './CenteredSection';
 import Section from './Section';
@@ -41,6 +42,13 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       episodes,
     };
     const episodeTableProps = episodes;
+
+    console.log('HOME episodes')
+    console.log(episodes)
+    if (episodes.data) {
+      console.log(episodes.data.image_url)
+    }
+    
 
     const columns = [{
       expander: true,
@@ -200,9 +208,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       <article>
         <ReactTooltip place="top" type="dark" effect="float" />
         <Helmet
-          title="Star Trek: The Next Generation"
+          title="Eye Pi"
           meta={[
-            { name: 'description', content: 'Star Trek: The Next Generation Episode Guide' },
+            { name: 'description', content: 'Eye Pi is a smart, distributed time lapse camera' },
           ]}
         />
         <div>
@@ -215,7 +223,17 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             </P>
           </CenteredSection>
           <Section>
-            { episodes &&
+            
+          {episodes && 
+            <img 
+              style={{
+                width: '100%'
+              }}
+              src={episodes.data.image_url}
+            />
+
+          }
+            {/* { episodes &&
               <ReactTable
                 filterable
                 data={episodeTableProps}
@@ -261,7 +279,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   );
                 }}
               />
-            }
+            } */}
             <IndicatorList {...IndicatorListProps} />
           </Section>
         </div>
@@ -278,6 +296,7 @@ HomePage.propTypes = {
   ]),
   episodes: React.PropTypes.oneOfType([
     React.PropTypes.array,
+    React.PropTypes.object,
     React.PropTypes.bool,
   ]),
   maxNumVotes: React.PropTypes.oneOfType([

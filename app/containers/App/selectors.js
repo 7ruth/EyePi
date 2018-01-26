@@ -18,7 +18,7 @@ const makeSelectError = () => createSelector(
 
 const makeSelectEpisodes = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['starTrekData', 'episodes'])
+  (globalState) => globalState.get('gmData')
 );
 
 const makeSelectMaxNumVotes = () => createSelector(

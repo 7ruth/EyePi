@@ -22,10 +22,7 @@ import {
 const initialState = fromJS({
   loading: false,
   error: false,
-  starTrekData: {
-    episodes: false,
-    maxNumVotes: false,
-  },
+  gmData: false,
 });
 
 function appReducer(state = initialState, action) {
@@ -37,16 +34,12 @@ function appReducer(state = initialState, action) {
         .set('error', false)
         .setIn(['starTrekData', 'episodes'], false);
     case LOAD_EPISODES_SUCCESS:
-      // find the max count of votes for an episode, used later for display purposes
-      action.episodes.forEach((episode) => {
-        if (episode.numVotes > maxNumVotes) {
-          maxNumVotes = episode.numVotes;
-        }
-      });
+      
+      console.log('action.episodes')
+      console.log(action.episodes)
 
       return state
-        .setIn(['starTrekData', 'episodes'], action.episodes)
-        .setIn(['starTrekData', 'maxNumVotes'], maxNumVotes)
+        .set('gmData', action.episodes)
         .set('loading', false);
     case LOAD_EPISODES_ERROR:
       return state

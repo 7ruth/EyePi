@@ -1,4 +1,4 @@
-Star Trek The Next Generation Episode Guide
+Eye Pi Project
 
 To start locally, in terminal:
 npm install

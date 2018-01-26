@@ -13,8 +13,8 @@ import request from 'utils/request';
  * Star Trek TNG episodes request/response handler
  */
 export function* getEpisodes() {
-  const requestURL = `http://ec2-52-90-200-167.compute-1.amazonaws.com:8080`; //eslint-disable-line
-
+  const requestURL = `https://api.giphy.com/v1/gifs/random?api_key=uxM7pLFXrXZXI6i2Abz3EYgNVest1VT9&tag=puppy&rating=g`; //eslint-disable-line
+  
   try {
     // Call our request helper (see 'utils/request')
     const episodes = yield call(request, requestURL);
