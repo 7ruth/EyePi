@@ -208,7 +208,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       <article>
         <ReactTooltip place="top" type="dark" effect="float" />
         <Helmet
-          title="Eye Pi"
+          title="Eye Pi!"
           meta={[
             { name: 'description', content: 'Eye Pi is a smart, distributed time lapse camera' },
           ]}
